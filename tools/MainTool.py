@@ -23,7 +23,7 @@ class MainTool(QMainWindow):
 
     def _connect_buttons(self):
         self._view._single_button.clicked.connect(self._image_classified_single)
-        self._view._skip_button.clicked.connect(self._show_random_image)
+        self._view._skip_button.clicked.connect(self._save_results)
         self._view._multi_button.clicked.connect(self._image_classified_multi)
 
     def _show_random_image(self):
@@ -40,3 +40,6 @@ class MainTool(QMainWindow):
     def _image_classified_multi(self):
         self._image_service.classify_image('multi')
         self._show_random_image()
+
+    def _save_results(self):
+        self._image_service.save_results()

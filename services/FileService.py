@@ -14,3 +14,7 @@ class FileService:
 
     def write_file(self):
         pass
+
+    def write_csv_file(self, path, content):
+        with open(path, 'w') as file:
+            file.write(content)

@@ -12,8 +12,7 @@ class ImageService:
         self._current_image = None
 
     def __del__(self):
-        for image in self._classified_images:
-            print('image with id {} was classified as {}'.format(image.id, image.classification))
+        self.save_results() # doesn't work, objects deleted before file could be written
 
     @property
     def current_image(self):
@@ -33,3 +32,9 @@ class ImageService:
     def classify_image(self, category):
         self._current_image.classify(category)
         self._classified_images.append(self._current_image)
+
+    def save_results(self):
+        output = 'image_id,category\n'
+        for id, image in enumerate(self._classified_images):
+            output += '{},{}\n'.format(id, image.classification)
+        FileService().write_csv_file('output.csv', output)
