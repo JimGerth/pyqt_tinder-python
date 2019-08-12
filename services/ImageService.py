@@ -33,8 +33,8 @@ class ImageService:
         self._current_image.classify(category)
         self._classified_images.append(self._current_image)
 
-    def save_results(self):
+    def save_results(self, path):
         output = 'image_id,category\n'
         for id, image in enumerate(self._classified_images):
             output += '{},{}\n'.format(id, image.classification)
-        FileService().write_csv_file('output.csv', output)
+        FileService().write_csv_file(path, output)

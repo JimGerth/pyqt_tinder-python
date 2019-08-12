@@ -41,5 +41,5 @@ class MainTool(QMainWindow):
         self._image_service.classify_image('multi')
         self._show_random_image()
 
-    def _save_results(self):
-        self._image_service.save_results()
+    def _save_results(self, path=Defaults.output_path):
+        self._image_service.save_results(path)
