@@ -11,14 +11,14 @@ class MainViewController(QMainWindow):
         super().__init__()
         self._view = MainView(parent=self)
 
-        self.connect_buttons()
+        self._connect_buttons()
 
         self.setCentralWidget(self._view)
         self._load_data()
         self._show_random_image()
 
-    def connect_buttons(self):
-        self._view._next_button.clicked.connect(self._show_random_image)
+    def _connect_buttons(self):
+        self._view._skip_button.clicked.connect(self._show_random_image)
 
     def _load_data(self):
         with h5.File('images_to_classify_manually.h5', 'r') as file:
