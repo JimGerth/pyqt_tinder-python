@@ -18,8 +18,11 @@ class MainView(QWidget):
         self.window().addToolBar(Qt.TopToolBarArea, NavigationToolbar(self._canvas, self))
 
         self._single_button = QPushButton('single')
+        self._single_button.setStyleSheet('background-color: #68c160')
         self._skip_button = QPushButton('skip')
+        self._skip_button.setStyleSheet('background-color: #6895c1')
         self._multi_button = QPushButton('multi')
+        self._multi_button.setStyleSheet('background-color: #ce423e')
 
     def _setup_layouts(self):
         button_layout = QHBoxLayout()
@@ -27,7 +30,7 @@ class MainView(QWidget):
         button_layout.addWidget(self._skip_button)
         button_layout.addWidget(self._multi_button)
         button_layout.setSpacing(5)
-        button_layout.setContentsMargins(0, 7, 0, 0)
+        # button_layout.setContentsMargins(0, 7, 0, 0)
 
         layout = QVBoxLayout()
         layout.addWidget(self._canvas)
