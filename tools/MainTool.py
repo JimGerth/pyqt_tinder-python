@@ -19,14 +19,14 @@ class MainTool(QMainWindow):
         self._connect_buttons()
 
         self.setCentralWidget(self._view)
-        self._show_random_image()
+        self._show_next_image()
 
     def _connect_buttons(self):
         self._view._single_button.clicked.connect(self._image_classified_single)
         self._view._skip_button.clicked.connect(self._show_random_image)
         self._view._multi_button.clicked.connect(self._image_classified_multi)
 
-    def _show_random_image(self):
+    def _show_next_image(self):
         try:
             self._image_service.next_image()
         except IndexError:
@@ -35,11 +35,11 @@ class MainTool(QMainWindow):
 
     def _image_classified_single(self):
         self._image_service.classify_image('single')
-        self._show_random_image()
+        self._show_next_image()
 
     def _image_classified_multi(self):
         self._image_service.classify_image('multi')
-        self._show_random_image()
+        self._show_next_image()
 
     def _save_results(self, path=Defaults.output_path):
         self._image_service.save_results(path)
