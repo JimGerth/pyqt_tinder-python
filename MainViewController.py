@@ -20,6 +20,7 @@ class MainViewController(QMainWindow):
         self._show_random_image()
 
     def __del__(self):
+        # save array
         for i in range(200):
             print('image {} classified as {}'.format(i, self._image_classifications[i]))
 
@@ -35,6 +36,8 @@ class MainViewController(QMainWindow):
 
     def _show_random_image(self):
         self._current_image = random.randint(0, 199)
+        while self._image_classifications[self._current_image] != 'unknown':
+            self._current_image = random.randint(0, 199)
         self._view._show_image(self._data[self._current_image])
 
     def _image_classified_single(self):
