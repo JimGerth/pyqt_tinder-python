@@ -5,7 +5,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2Q
 from matplotlib.figure import Figure
 
 
-class MainView(QWidget):
+class MainToolUI(QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -43,5 +43,5 @@ class MainView(QWidget):
     def _show_image(self, img, cmap='Spectral_r', interpolation='gaussian'):
         self._static_ax.clear()
         self._static_ax.axis('off')
-        self._static_ax.imshow(img, cmap=cmap, interpolation=interpolation)
+        self._static_ax.imshow(img.data, cmap=cmap, interpolation=interpolation)
         self._static_ax.figure.canvas.draw()

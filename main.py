@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QApplication
-from MainViewController import MainViewController
+from tools.MainTool import MainTool
+
 
 application = QApplication([])
 
-window = MainViewController()
+window = MainTool()
 window.show()
 
 application.exec_()
