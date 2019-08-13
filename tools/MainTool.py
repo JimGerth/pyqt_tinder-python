@@ -3,6 +3,7 @@ from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtCore import QRect
 
 from tools.MainToolUI import MainToolUI
+from tools.UI import UI
 
 from services.ImageService import ImageService
 
@@ -13,8 +14,13 @@ class MainTool(QMainWindow):
 
     def __init__(self):
         super().__init__()
+
+        supplied_UI = MainToolUI(parent=self)
+        if not isinstance(supplied_UI, UI):
+            raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
+
         self._set_screen_size()
-        self.setCentralWidget(MainToolUI(parent=self))
+        self.setCentralWidget(supplied_UI)
 
         self._image_service = ImageService()
         self._image_service.load_images(Defaults.image_data_file_path)
