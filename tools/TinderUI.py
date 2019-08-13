@@ -9,7 +9,7 @@ from tools.UI import UI
 from services.PanGestureRecognizer import PanGestureRecognizer
 
 
-class ImageWidget(QWidget, UI):
+class TinderUI(QWidget, UI):
 
     def __init__(self, parent=None):
         super().__init__(parent)
