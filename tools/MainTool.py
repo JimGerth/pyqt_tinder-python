@@ -15,17 +15,17 @@ class MainTool(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        supplied_UI = MainToolUI(parent=self)
-        if not isinstance(supplied_UI, UI):
+        self._ui = MainToolUI(parent=self)
+        if not isinstance(self._ui, UI):
             raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
 
         self._set_screen_size()
-        self.setCentralWidget(supplied_UI)
+        self.setCentralWidget(self._ui)
 
         self._image_service = ImageService()
         self._image_service.load_images(Defaults.image_data_file_path)
 
-        self._connect_buttons()
+        self._create_connections()
 
         self._show_next_image()
 
@@ -35,10 +35,10 @@ class MainTool(QMainWindow):
         geometry.moveCenter(screen_geometry.center())
         self.setGeometry(geometry)
 
-    def _connect_buttons(self):
-        self.centralWidget()._single_button.clicked.connect(self._image_classified_single)
-        self.centralWidget()._skip_button.clicked.connect(self._show_next_image)
-        self.centralWidget()._multi_button.clicked.connect(self._image_classified_multi)
+    def _create_connections(self):
+        self._ui.connect_single_classification_listener(self, self._image_classified_single)
+        self._ui.connect_skip_classification_listener(self, self._show_next_image)
+        self._ui.connect_multi_classification_listener(self, self._image_classified_multi)
 
     def _show_next_image(self):
         try:

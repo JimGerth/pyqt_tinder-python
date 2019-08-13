@@ -4,10 +4,12 @@ from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
 
+from tools.UI import UI
+
 from services.PanGestureRecognizer import PanGestureRecognizer
 
 
-class ImageWidget(QWidget):
+class ImageWidget(QWidget, UI):
 
     def __init__(self, parent=None):
         super().__init__(parent)

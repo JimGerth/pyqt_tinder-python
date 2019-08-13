@@ -4,8 +4,10 @@ from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
+from tools.UI import UI
 
-class MainToolUI(QWidget):
+
+class MainToolUI(QWidget, UI):
 
     def __init__(self, parent=None):
         super().__init__(parent)
