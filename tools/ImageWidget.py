@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QWidget
+import numpy as np
+from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture, QGestureRecognizer
 from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtGui import QPainter
-from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture, QGestureRecognizer
-from PanGestureRecognizer import PanGestureRecognizer
-import numpy as np
+from PyQt5.QtWidgets import QWidget
+
+from services.PanGestureRecognizer import PanGestureRecognizer
 
 
 class ImageWidget(QWidget):

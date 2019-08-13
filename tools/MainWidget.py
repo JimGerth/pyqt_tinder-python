@@ -1,4 +1,3 @@
-from PyQt5.QtCore import QDir
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtWidgets import QMainWindow
