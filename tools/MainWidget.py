@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QMainWindow
-from ImageWidget import ImageWidget
+from PyQt5.QtCore import QDir
 from PyQt5.QtCore import QRect
 from PyQt5.QtGui import QGuiApplication
-from PyQt5.QtCore import QDir
+from PyQt5.QtWidgets import QMainWindow
+
+from tools.ImageWidget import ImageWidget
 
 
 class MainWidget(QMainWindow):
