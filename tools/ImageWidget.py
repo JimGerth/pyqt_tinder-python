@@ -24,10 +24,6 @@ class ImageWidget(QWidget):
         id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
         self.grabGesture(id)
 
-    def grab_gestures(self, gestures):
-        for gesture in gestures:
-            self.grabGesture(gesture)
-
     def event(self, event):
         if event.type() == QEvent.Gesture: # gesture event
             self.gesture_event(event)

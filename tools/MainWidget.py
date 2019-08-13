@@ -15,10 +15,3 @@ class MainWidget(QMainWindow):
         geometry = QRect(0, 0, screen_geometry.width() * 3 / 4, screen_geometry.height() * 3 / 4)
         geometry.moveCenter(screen_geometry.center())
         self.setGeometry(geometry)
-
-    def open_directory(self, path):
-        self.setWindowTitle(QDir.toNativeSeparators(path))
-        self.centralWidget().open_directory()
-
-    def grab_gestures(self, gestures):
-        self.centralWidget().grab_gestures(gestures)
