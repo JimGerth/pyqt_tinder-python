@@ -18,5 +18,13 @@ class Image:
     def classification(self):
         return self._classification
 
+    @property
+    def width(self):
+        return len(self._data)
+
+    @property
+    def height(self):
+        return len(self._data[0])
+
     def classify(self, category):
         self._classification = category
