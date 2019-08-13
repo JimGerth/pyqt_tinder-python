@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import QEvent, Qt
 from PyQt5.QtGui import QPainter
 from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture
 from PanGestureRecognizer import PanGestureRecognizer
@@ -14,7 +14,6 @@ class ImageWidget(QWidget):
         self.position = 0
         self.horizontal_offset = 0
         self.vertical_offset = 0
-        self.rotation_angle = 0
         self.scale_factor = 1
         self.current_step_scale_factor = 1
         self.setMinimumSize(100, 100)
@@ -48,7 +47,9 @@ class ImageWidget(QWidget):
         painter.drawRect(0, 0, iw, ih)
 
     def mouseDoubleClickEvent(self, event):
-        self.rotation_angle = 0
+        self.reset()
+
+    def reset(self):
         self.scale_factor = 1
         self.current_step_scale_factor = 1
         self.vertical_offset = 0
@@ -69,13 +70,8 @@ class ImageWidget(QWidget):
         self.horizontal_offset += delta.x()
         self.vertical_offset += delta.y()
         self.update()
-        if pan_gesture.state() == 3:
-            self.rotation_angle = 0
-            self.scale_factor = 1
-            self.current_step_scale_factor = 1
-            self.vertical_offset = 0
-            self.horizontal_offset = 0
-            self.update()
+        if pan_gesture.state() == Qt.GestureFinished:
+            self.reset()
 
     def pinch_triggered(self, pinch_gesture):
         print('pinch triggered: {}'.format(pinch_gesture))
