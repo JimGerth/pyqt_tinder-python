@@ -29,7 +29,7 @@ class MainTool(QMainWindow):
 
         self._show_next_image()
 
-    def _set_screen_size(self):
+    def _set_screen_size(self): # should also be responsibility of the UI!
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
         geometry = QRect(0, 0, screen_geometry.width() * 3 / 4, screen_geometry.height() * 3 / 4)
         geometry.moveCenter(screen_geometry.center())
