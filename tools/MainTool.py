@@ -36,9 +36,9 @@ class MainTool(QMainWindow):
         self.setGeometry(geometry)
 
     def _create_connections(self):
-        self._ui.connect_single_classification_listener(self, self._image_classified_single)
-        self._ui.connect_skip_classification_listener(self, self._show_next_image)
-        self._ui.connect_multi_classification_listener(self, self._image_classified_multi)
+        self._ui.connect_single_classification_listener(self._image_classified_single)
+        self._ui.connect_skip_classification_listener(self._show_next_image)
+        self._ui.connect_multi_classification_listener(self._image_classified_multi)
 
     def _show_next_image(self):
         try:

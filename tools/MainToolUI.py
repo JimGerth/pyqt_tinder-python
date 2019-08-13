@@ -47,3 +47,12 @@ class MainToolUI(QWidget, UI):
         self._static_ax.axis('off')
         self._static_ax.imshow(img.data, cmap=cmap, interpolation=interpolation)
         self._static_ax.figure.canvas.draw()
+
+    def connect_single_classification_listener(self, action):
+        self._single_button.clicked.connect(action)
+
+    def connect_skip_classification_listener(self, action):
+        self._skip_button.clicked.connect(action)
+
+    def connect_multi_classification_listener(self, action):
+        self._multi_button.clicked.connect(action)
