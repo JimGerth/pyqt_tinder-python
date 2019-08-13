@@ -14,13 +14,13 @@ class MainTool(QMainWindow):
     def __init__(self):
         super().__init__()
         self._set_screen_size()
+        self.setCentralWidget(MainToolUI(parent=self))
 
         self._image_service = ImageService()
         self._image_service.load_images(Defaults.image_data_file_path)
 
         self._connect_buttons()
 
-        self.setCentralWidget(MainToolUI(parent=self))
         self._show_next_image()
 
     def _set_screen_size(self):
@@ -31,7 +31,7 @@ class MainTool(QMainWindow):
 
     def _connect_buttons(self):
         self.centralWidget()._single_button.clicked.connect(self._image_classified_single)
-        self.centralWidget()._skip_button.clicked.connect(self._show_random_image)
+        self.centralWidget()._skip_button.clicked.connect(self._show_next_image)
         self.centralWidget()._multi_button.clicked.connect(self._image_classified_multi)
 
     def _show_next_image(self):

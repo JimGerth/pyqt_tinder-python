@@ -3,6 +3,8 @@ from services.FileService import FileService
 
 from materials.Image import Image
 
+from data.Defaults import Defaults
+
 
 class ImageService:
 
@@ -33,7 +35,7 @@ class ImageService:
         self._current_image.classify(category)
         self._classified_images.append(self._current_image)
 
-    def save_results(self, path):
+    def save_results(self, path=Defaults.output_path):
         output = 'image_id,category\n'
         for id, image in enumerate(self._classified_images):
             output += '{},{}\n'.format(id, image.classification)
