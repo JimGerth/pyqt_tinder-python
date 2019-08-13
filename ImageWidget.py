@@ -4,6 +4,7 @@ from PyQt5.QtGui import QPainter
 from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture
 from PanGestureRecognizer import PanGestureRecognizer
 from PyQt5.Qt import QGestureRecognizer
+import numpy as np
 
 
 class ImageWidget(QWidget):
@@ -37,14 +38,14 @@ class ImageWidget(QWidget):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        iw = 50 # self.current_image.width()
-        ih = 100 # self.current_image.height()
+        iw = 250 # self.current_image.width()
+        ih = 250 # self.current_image.height()
         ww = self.width()
         wh = self.height()
 
         painter.translate(ww / 2, wh / 2)
         painter.translate(self.horizontal_offset, self.vertical_offset)
-        painter.rotate(self.rotation_angle)
+        painter.rotate(self.get_rotation())
         painter.scale(self.current_step_scale_factor * self.scale_factor, self.current_step_scale_factor * self.scale_factor)
         painter.translate(-iw / 2, -ih / 2)
         # painter.drawImage(0, 0, self.current_image)
@@ -72,6 +73,13 @@ class ImageWidget(QWidget):
         self.horizontal_offset += delta.x()
         self.vertical_offset += delta.y()
         self.update()
+        if pan_gesture.state() == 3:
+            self.rotation_angle = 0
+            self.scale_factor = 1
+            self.current_step_scale_factor = 1
+            self.vertical_offset = 0
+            self.horizontal_offset = 0
+            self.update()
 
     def pinch_triggered(self, pinch_gesture):
         print('pinch triggered: {}'.format(pinch_gesture))
@@ -82,3 +90,12 @@ class ImageWidget(QWidget):
     def resizeEvent(self, event):
         self.update()
 
+    def get_rotation(self):
+        pic = [self.horizontal_offset, -self.vertical_offset]
+        pivot = [0, -500]
+        v1 = np.subtract(pic, pivot)
+        v2 = np.subtract([0, 0], pivot)
+        a = np.arccos(np.divide(np.abs(np.dot(v1, v2)), (np.linalg.norm(v1) * np.linalg.norm(v2))))
+        if self.horizontal_offset < 0:
+            return -a * 10
+        return a * 10
