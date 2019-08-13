@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtCore import QEvent
 from PyQt5.QtGui import QPainter
 from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture
+from PanGestureRecognizer import PanGestureRecognizer
+from PyQt5.Qt import QGestureRecognizer
 
 
 class ImageWidget(QWidget):
@@ -18,14 +20,15 @@ class ImageWidget(QWidget):
 
         self.current_image = None
 
+        id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
+        self.grabGesture(id)
+
     def grab_gestures(self, gestures):
         for gesture in gestures:
             self.grabGesture(gesture)
 
     def event(self, event):
-        print('recieved event')
-        if type(event) == QEvent.Gesture:
-            print('recieved gesture event')
+        if event.type() == QEvent.Gesture: # gesture event
             self.gesture_event(event)
         else:
             super().event(event)
@@ -56,17 +59,15 @@ class ImageWidget(QWidget):
         self.update()
 
     def gesture_event(self, event):
-        print('gesture event recieved: {}'.format(event))
         for gesture in event.gestures():
-            if gesture is QSwipeGesture:
+            if type(gesture) is QSwipeGesture:
                 self.swipe_triggered(gesture)
-            elif gesture is QPanGesture:
+            elif type(gesture) is QPanGesture:
                 self.pan_triggered(gesture)
-            if gesture is QPinchGesture:
+            if type(gesture) is QPinchGesture:
                 self.pinch_triggered(gesture)
 
     def pan_triggered(self, pan_gesture):
-        print('pan triggered: {}'.format(pan_gesture))
         delta = pan_gesture.delta()
         self.horizontal_offset += delta.x()
         self.vertical_offset += delta.y()
