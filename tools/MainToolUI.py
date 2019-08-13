@@ -42,7 +42,7 @@ class MainToolUI(QWidget, UI):
 
         self.setLayout(layout)
 
-    def _show_image(self, img, cmap='Spectral_r', interpolation='gaussian'):
+    def show_image(self, img, cmap='Spectral_r', interpolation='gaussian'):
         self._static_ax.clear()
         self._static_ax.axis('off')
         self._static_ax.imshow(img.data, cmap=cmap, interpolation=interpolation)

@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QWidget
 from tools.UI import UI
 
 from services.PanGestureRecognizer import PanGestureRecognizer
+from services.PlotService import PlotService
 
 
 class TinderUI(QWidget, UI):
@@ -20,7 +21,7 @@ class TinderUI(QWidget, UI):
         self.current_step_scale_factor = 1
         self.setMinimumSize(100, 100)
 
-        self.current_image = None
+        self._image = None
 
         id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
         self.grabGesture(id)
@@ -35,8 +36,8 @@ class TinderUI(QWidget, UI):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        iw = 250 # self.current_image.width()
-        ih = 250 # self.current_image.height()
+        iw = self._image.width() or 250
+        ih = self._image.height() or 250
         ww = self.width()
         wh = self.height()
 
@@ -45,8 +46,10 @@ class TinderUI(QWidget, UI):
         painter.rotate(self.get_rotation())
         painter.scale(self.current_step_scale_factor * self.scale_factor, self.current_step_scale_factor * self.scale_factor)
         painter.translate(-iw / 2, -ih / 2)
-        # painter.drawImage(0, 0, self.current_image)
-        painter.drawRect(0, 0, iw, ih)
+        if not self._image:
+            painter.drawRect(0, 0, iw, ih)
+        else:
+            painter.drawImage(0, 0, self._image)
 
     def mouseDoubleClickEvent(self, event):
         self.reset()
@@ -93,3 +96,16 @@ class TinderUI(QWidget, UI):
         if self.horizontal_offset < 0:
             return -a * 10
         return a * 10
+
+    def show_image(self, image, cmap='Spectral_r', interpolation='gaussian'):
+        self._image = PlotService().convert_to_image(image, cmap)
+        self.update()
+
+    def connect_single_classification_listener(self, action):
+        pass
+
+    def connect_skip_classification_listener(self, action):
+        pass
+
+    def connect_multi_classification_listener(self, action):
+        pass

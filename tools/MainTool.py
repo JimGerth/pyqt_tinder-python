@@ -3,6 +3,7 @@ from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtCore import QRect
 
 from tools.MainToolUI import MainToolUI
+from tools.TinderUI import TinderUI
 from tools.UI import UI
 
 from services.ImageService import ImageService
@@ -15,7 +16,7 @@ class MainTool(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self._ui = MainToolUI(parent=self)
+        self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
             raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
 
@@ -45,7 +46,7 @@ class MainTool(QMainWindow):
             self._image_service.next_image()
         except IndexError:
             print('no more images to classify')
-        self.centralWidget()._show_image(self._image_service.current_image)
+        self._ui.show_image(self._image_service.current_image)
 
     def _image_classified_single(self):
         self._image_service.classify_image('single')
