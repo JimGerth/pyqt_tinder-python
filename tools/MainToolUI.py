@@ -6,6 +6,8 @@ from matplotlib.figure import Figure
 
 from tools.UI import UI
 
+from data.Defaults import Defaults
+
 
 class MainToolUI(QWidget, UI):
 
@@ -42,7 +44,7 @@ class MainToolUI(QWidget, UI):
 
         self.setLayout(layout)
 
-    def show_image(self, img, cmap='Spectral_r', interpolation='gaussian'):
+    def show_image(self, img, cmap=Defaults.cmap, interpolation='gaussian'):
         self._static_ax.clear()
         self._static_ax.axis('off')
         self._static_ax.imshow(img.data, cmap=cmap, interpolation=interpolation)

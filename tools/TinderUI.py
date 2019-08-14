@@ -9,6 +9,8 @@ from tools.UI import UI
 from services.PanGestureRecognizer import PanGestureRecognizer
 from services.PlotService import PlotService
 
+from data.Defaults import Defaults
+
 
 class TinderUI(QWidget, UI):
 
@@ -97,7 +99,7 @@ class TinderUI(QWidget, UI):
     def resizeEvent(self, event):
         self.update()
 
-    def show_image(self, image, cmap='Spectral_r', interpolation='gaussian'):
+    def show_image(self, image, cmap=Defaults.cmap, interpolation='gaussian'):
         self._image = PlotService().convert_to_image(image, cmap)
         self.update()
 

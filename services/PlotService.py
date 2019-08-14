@@ -4,10 +4,12 @@ from PyQt5.QtGui import QColor
 from matplotlib import colors
 from matplotlib import cm
 
+from data.Defaults import Defaults
+
 
 class PlotService:
 
-    def convert_to_image(self, image_data, cmap='Spectral_r'):
+    def convert_to_image(self, image_data, cmap=Defaults.cmap):
         image = QImage(image_data.width, image_data.height, QImage.Format_ARGB32)
         norm = colors.Normalize(vmin=0, vmax=image_data.data.max())
         cmap = cm.get_cmap(cmap)
