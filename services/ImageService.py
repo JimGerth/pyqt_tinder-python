@@ -10,10 +10,13 @@ from data.Defaults import Defaults
 
 class ImageService:
 
-    def __init__(self):
+    def __init__(self, path=None):
         self._image_queue = QueueService()
         self._classified_images = list()
         self.current_image = None
+
+        if path:
+            self.load_images(path)
 
     # def __del__(self):
     #     self.save_results() # doesn't work, objects deleted before file could be written

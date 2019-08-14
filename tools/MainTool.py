@@ -23,8 +23,7 @@ class MainTool(QMainWindow):
         self._set_screen_size()
         self.setCentralWidget(self._ui)
 
-        self._image_service = ImageService()
-        self._image_service.load_images(Defaults.image_data_file_path)
+        self._image_service = ImageService(Defaults.image_data_file_path)
 
         self._create_connections()
 
