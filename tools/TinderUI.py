@@ -62,9 +62,6 @@ class TinderUI(QWidget, UI):
         else:
             painter.drawImage(0, 0, self._image)
 
-    def mouseDoubleClickEvent(self, event):
-        self.reset()
-
     def reset(self):
         #self.animation = QPropertyAnimation(self, b'position')
         #self.animation.setStartValue(self.position)
