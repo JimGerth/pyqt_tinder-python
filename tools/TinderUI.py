@@ -78,10 +78,10 @@ class TinderUI(QWidget, UI):
         self.position += delta
         self.update()
         if pan_gesture.state() == Qt.GestureFinished:
-            self.check_classification()
+            self._check_if_classified()
             self.reset()
 
-    def check_classification(self):
+    def _check_if_classified(self):
         if self.position.x() > self.width() / 2:
             self._classify_single()
             self.reset()
