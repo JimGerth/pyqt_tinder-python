@@ -92,9 +92,6 @@ class TinderUI(QWidget, UI):
             self._classify_skip()
             self.reset()
 
-    def resizeEvent(self, event):
-        self.update()
-
     def show_image(self, image, cmap=Defaults.cmap, interpolation='gaussian'):
         self._image = PlotService().convert_to_image(image, cmap)
         self.update()
