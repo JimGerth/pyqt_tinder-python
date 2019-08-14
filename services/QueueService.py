@@ -12,5 +12,8 @@ class QueueService:
     def dequeue(self):
         return self._data.pop(0)
 
+    def peek(self):
+        return self._data[0]
+
     def shuffle(self):
         np.random.shuffle(self._data)
