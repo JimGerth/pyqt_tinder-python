@@ -17,7 +17,7 @@ class TinderUI(QWidget, UI):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.position = QPointF(0, 0)
-        self.scale_factor = 2
+        self.scale_factor = 3
         self.setMinimumSize(100, 100)
 
         self._image = None
@@ -68,7 +68,7 @@ class TinderUI(QWidget, UI):
         #self.animation.setDuration(100)
         #self.animation.start()
         self.position = QPointF(0, 0)
-        self.scale_factor = 2
+        self.scale_factor = 3
         self.update()
 
     def pan_triggered(self, pan_gesture):
