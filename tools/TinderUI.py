@@ -1,5 +1,5 @@
 import numpy as np
-from PyQt5.Qt import QSwipeGesture, QPanGesture, QPinchGesture, QGestureRecognizer, QPointF, pyqtProperty
+from PyQt5.Qt import QGestureRecognizer, QPointF, pyqtProperty
 from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation
 from PyQt5.QtGui import QPainter
 from PyQt5.QtWidgets import QWidget
@@ -36,8 +36,8 @@ class TinderUI(QWidget, UI):
         return a * 10
 
     def event(self, event):
-        if event.type() == QEvent.Gesture: # gesture event
-            self.gesture_event(event)
+        if event.type() == QEvent.Gesture and event.gesture(Qt.PanGesture):
+            self.pan_triggered(event.gesture(Qt.PanGesture))
         else:
             super().event(event)
         return True
@@ -73,15 +73,6 @@ class TinderUI(QWidget, UI):
         self.scale_factor = 1
         self.current_step_scale_factor = 1
         self.update()
-
-    def gesture_event(self, event):
-        for gesture in event.gestures():
-            if type(gesture) is QSwipeGesture:
-                self.swipe_triggered(gesture)
-            elif type(gesture) is QPanGesture:
-                self.pan_triggered(gesture)
-            if type(gesture) is QPinchGesture:
-                self.pinch_triggered(gesture)
 
     def pan_triggered(self, pan_gesture):
         delta = pan_gesture.delta()
