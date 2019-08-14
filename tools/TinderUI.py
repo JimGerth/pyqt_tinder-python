@@ -15,7 +15,7 @@ class TinderUI(QWidget, UI):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.position = QPointF(0, 0)
-        self.scale_factor = 1
+        self.scale_factor = 2
         self.current_step_scale_factor = 1
         self.setMinimumSize(100, 100)
 
@@ -61,6 +61,7 @@ class TinderUI(QWidget, UI):
             painter.drawImage(0, 0, self._image)
 
     def mouseDoubleClickEvent(self, event):
+        self._classify_skip()
         self.reset()
 
     def reset(self):
@@ -70,7 +71,7 @@ class TinderUI(QWidget, UI):
         #self.animation.setDuration(100)
         #self.animation.start()
         self.position = QPointF(0, 0)
-        self.scale_factor = 1
+        self.scale_factor = 2
         self.current_step_scale_factor = 1
         self.update()
 
@@ -89,10 +90,10 @@ class TinderUI(QWidget, UI):
         self.update()
 
     def connect_single_classification_listener(self, action):
-        pass
+        self._classify_single = action
 
     def connect_skip_classification_listener(self, action):
-        pass
+        self._classify_skip = action
 
     def connect_multi_classification_listener(self, action):
-        pass
+        self._classify_multi = action
