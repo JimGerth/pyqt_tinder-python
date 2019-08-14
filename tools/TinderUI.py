@@ -63,7 +63,6 @@ class TinderUI(QWidget, UI):
             painter.drawImage(0, 0, self._image)
 
     def mouseDoubleClickEvent(self, event):
-        self._classify_skip()
         self.reset()
 
     def reset(self):
