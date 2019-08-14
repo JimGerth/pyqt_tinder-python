@@ -19,9 +19,7 @@ class ImageService:
 
         if path:
             self.load_images(path)
-
-    # def __del__(self):
-    #     self.save_results() # doesn't work, objects deleted before file could be written
+            # if no path was supplied load_images(path) has to be called, before working with ImageService!
 
     def load_images(self, path):
         image_data_array = FileService().read_h5_file(path)
@@ -41,7 +39,7 @@ class ImageService:
 
     def _preload_next_image(self): # preloads next image in queue into memory in a different thread
         self._next_image = self._image_queue.peek()
-        PlotService().convert_to_pixmap(self._next_image)
+        PlotService().convert_to_image(self._next_image)
 
     def skip_image(self):
         self._image_queue.enqueue(self.current_image)
