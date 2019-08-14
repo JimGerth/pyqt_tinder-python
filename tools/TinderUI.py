@@ -80,6 +80,18 @@ class TinderUI(QWidget, UI):
         self.position += delta
         self.update()
         if pan_gesture.state() == Qt.GestureFinished:
+            self.check_classification()
+            self.reset()
+
+    def check_classification(self):
+        if self.position.x() > self.width() / 2:
+            self._classify_single()
+            self.reset()
+        elif self.position.x() < -self.width() / 2:
+            self._classify_multi()
+            self.reset()
+        elif self.position.y() < -self.height() / 2 or self.position.y() > self.height() / 2:
+            self._classify_skip()
             self.reset()
 
     def resizeEvent(self, event):

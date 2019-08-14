@@ -38,21 +38,24 @@ class MainTool(QMainWindow):
 
     def _create_connections(self):
         self._ui.connect_single_classification_listener(self._image_classified_single)
-        self._ui.connect_skip_classification_listener(self._show_next_image)
+        self._ui.connect_skip_classification_listener(self._image_skipped)
         self._ui.connect_multi_classification_listener(self._image_classified_multi)
 
     def _show_next_image(self):
-        try:
-            self._image_service.next_image()
-        except IndexError:
-            print('no more images to classify')
         self._ui.show_image(self._image_service.current_image)
 
+    def _image_skipped(self):
+        print('image skipped')
+        self._image_service.skip_image()
+        self._show_next_image()
+
     def _image_classified_single(self):
+        print('image classified as single')
         self._image_service.classify_image('single')
         self._show_next_image()
 
     def _image_classified_multi(self):
+        print('image classified as multi')
         self._image_service.classify_image('multi')
         self._show_next_image()
 
