@@ -43,18 +43,15 @@ class MainTool(QMainWindow):
     def _show_image_to_classify(self):
         self._ui.show_image(self._image_service.current_image)
 
-    def _image_skipped(self):
-        print('image skipped')
-        self._image_service.skip_image()
-        self._show_image_to_classify()
-
     def _image_classified_single(self):
-        print('image classified as single')
         self._image_service.classify_image('single')
         self._show_image_to_classify()
 
+    def _image_skipped(self):
+        self._image_service.skip_image()
+        self._show_image_to_classify()
+
     def _image_classified_multi(self):
-        print('image classified as multi')
         self._image_service.classify_image('multi')
         self._show_image_to_classify()
 
