@@ -5,8 +5,8 @@ class Image:
         self.id = id
         self.data = data # 2D int array
         self.classification = None
-        self.QImage = None
-        self.QPixmap = None
+        self.q_image = None
+        self.q_pixmap = None
 
     @property
     def width(self):

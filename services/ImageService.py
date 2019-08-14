@@ -2,6 +2,7 @@ import threading
 
 from services.QueueService import QueueService
 from services.FileService import FileService
+from services.PlotService import PlotService
 
 from materials.Image import Image
 
@@ -40,6 +41,7 @@ class ImageService:
 
     def _preload_next_image(self): # preloads next image in queue into memory in a different thread
         self._next_image = self._image_queue.peek()
+        PlotService().convert_to_pixmap(self._next_image)
 
     def skip_image(self):
         self._image_queue.enqueue(self.current_image)

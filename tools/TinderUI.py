@@ -46,8 +46,8 @@ class TinderUI(QWidget, UI):
     def paintEvent(self, event):
         painter = QPainter(self)
 
-        iw = self._image.width() or 250
-        ih = self._image.height() or 250
+        iw = self._image.width or 250
+        ih = self._image.height or 250
         ww = self.width()
         wh = self.height()
 
@@ -59,7 +59,7 @@ class TinderUI(QWidget, UI):
         if not self._image:
             painter.drawRect(0, 0, iw, ih)
         else:
-            painter.drawImage(0, 0, self._image)
+            painter.drawImage(0, 0, self._image.q_image)
 
     def reset(self):
         #self.animation = QPropertyAnimation(self, b'position')
@@ -91,7 +91,9 @@ class TinderUI(QWidget, UI):
             self.reset()
 
     def show_image(self, image, cmap=Defaults.cmap, interpolation='gaussian'):
-        self._image = PlotService().convert_to_image(image, cmap)
+        if not image.q_image:
+            PlotService().convert_to_image(image)
+        self._image = image
         self.update()
 
     def connect_single_classification_listener(self, action):
