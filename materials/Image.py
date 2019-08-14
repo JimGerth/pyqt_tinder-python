@@ -2,29 +2,19 @@
 class Image:
 
     def __init__(self, id, data):
-        self._id = id
-        self._data = data # 2D int array
-        self._classification = None
-
-    @property
-    def id(self):
-        return self._id
-
-    @property
-    def data(self):
-        return self._data
-
-    @property
-    def classification(self):
-        return self._classification
+        self.id = id
+        self.data = data # 2D int array
+        self.classification = None
+        self.QImage = None
+        self.QPixmap = None
 
     @property
     def width(self):
-        return len(self._data)
+        return len(self.data)
 
     @property
     def height(self):
-        return len(self._data[0])
+        return len(self.data[0])
 
     def classify(self, category):
-        self._classification = category
+        self.classification = category
