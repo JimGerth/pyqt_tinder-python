@@ -18,7 +18,6 @@ class TinderUI(QWidget, UI):
         super().__init__(parent)
         self.position = QPointF(0, 0)
         self.scale_factor = 2
-        self.current_step_scale_factor = 1
         self.setMinimumSize(100, 100)
 
         self._image = None
@@ -55,7 +54,7 @@ class TinderUI(QWidget, UI):
         painter.translate(ww / 2, wh / 2)
         painter.translate(self.position.x(), self.position.y())
         painter.rotate(self.rotation)
-        painter.scale(self.current_step_scale_factor * self.scale_factor, self.current_step_scale_factor * self.scale_factor)
+        painter.scale(self.scale_factor, self.scale_factor)
         painter.translate(-iw / 2, -ih / 2)
         if not self._image:
             painter.drawRect(0, 0, iw, ih)
@@ -70,7 +69,6 @@ class TinderUI(QWidget, UI):
         #self.animation.start()
         self.position = QPointF(0, 0)
         self.scale_factor = 2
-        self.current_step_scale_factor = 1
         self.update()
 
     def pan_triggered(self, pan_gesture):
