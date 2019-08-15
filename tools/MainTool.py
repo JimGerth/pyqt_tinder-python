@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5.QtGui import QGuiApplication
 from PyQt5.QtCore import QRect
 
@@ -61,6 +61,17 @@ class MainTool(QMainWindow):
         self._show_image_to_classify()
 
     def _everything_classified(self):
+        self._show_thank_you_screen()
+
+    def  _show_thank_you_screen(self):
+        thank_you_screen = QMessageBox()
+        thank_you_screen.setText('Thank you!')
+        thank_you_screen.setInformativeText('You classified all 200 images.')
+        thank_you_screen.setIcon(QMessageBox.Information)
+        thank_you_screen.buttonClicked.connect(self._exit)
+        thank_you_screen.exec()
+
+    def _exit(self):
         self._save_results()
         self._application.exit()
 
