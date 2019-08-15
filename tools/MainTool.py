@@ -4,6 +4,7 @@ from PyQt5.QtCore import QRect
 
 from tools.MainToolUI import MainToolUI
 from tools.TinderUI import TinderUI
+from tools.MatplotTinderUI import MatplotTinderUI
 from tools.UI import UI
 
 from services.ImageService import ImageService
@@ -17,7 +18,7 @@ class MainTool(QMainWindow):
         super().__init__(parent)
         self._application = application
 
-        self._ui = TinderUI(parent=self)
+        self._ui = MatplotTinderUI(parent=self)
         if not isinstance(self._ui, UI):
             raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
 
