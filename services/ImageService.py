@@ -1,8 +1,9 @@
-import threading
+from PyQt5.Qt import QThreadPool
 
 from services.QueueService import QueueService
 from services.FileService import FileService
 from services.PlotService import PlotService
+from services.ThreadingService import ThreadingService
 
 from materials.Image import Image
 
@@ -16,6 +17,8 @@ class ImageService:
         self._classified_images = list()
         self.current_image = None
         self._next_image = None
+
+        self._thread_pool = QThreadPool()
 
         if path:
             self.load_images(path)
@@ -40,12 +43,11 @@ class ImageService:
         else:
             self.current_image = self._image_queue.dequeue()
 
-        preload_thread = threading.Thread(target=self._preload_next_image, daemon=True)
-        preload_thread.start()
+        self._preload_next_image()
 
     def _preload_next_image(self): # preloads next image in queue into memory in a different thread
         self._next_image = self._image_queue.peek()
-        PlotService().convert_to_image(self._next_image)
+        self._thread_pool.start(ThreadingService(PlotService().convert_to_image, image=self._next_image))
 
     def skip_image(self):
         self._image_queue.enqueue(self.current_image)
