@@ -6,6 +6,9 @@ class QueueService:
     def __init__(self):
         self._data = list()
 
+    def __len__(self):
+        return len(self._data)
+
     def enqueue(self, item):
         self._data.append(item)
 

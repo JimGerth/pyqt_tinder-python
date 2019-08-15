@@ -4,7 +4,7 @@ from tools.MainTool import MainTool
 
 application = QApplication([])
 
-window = MainTool()
+window = MainTool(application=application)
 window.show()
 
 application.exec_()

@@ -21,6 +21,12 @@ class ImageService:
             self.load_images(path)
             # if no path was supplied load_images(path) has to be called, before working with ImageService!
 
+    @property
+    def done(self):
+        if len(self._image_queue) == 0:
+            return True
+        return False
+
     def load_images(self, path):
         image_data_array = FileService().read_h5_file(path)
         for id, image_data in enumerate(image_data_array):

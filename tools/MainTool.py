@@ -13,8 +13,9 @@ from data.Defaults import Defaults
 
 class MainTool(QMainWindow):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None, application=None):
+        super().__init__(parent)
+        self._application = application
 
         self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
@@ -43,17 +44,25 @@ class MainTool(QMainWindow):
     def _show_image_to_classify(self):
         self._ui.show_image(self._image_service.current_image)
 
-    def _image_classified_single(self):
-        self._image_service.classify_image('single')
-        self._show_image_to_classify()
-
     def _image_skipped(self):
         self._image_service.skip_image()
         self._show_image_to_classify()
 
+    def _image_classified_single(self):
+        self._image_service.classify_image('single')
+        if self._image_service.done:
+            self._everything_classified()
+        self._show_image_to_classify()
+
     def _image_classified_multi(self):
         self._image_service.classify_image('multi')
+        if self._image_service.done:
+            self._everything_classified()
         self._show_image_to_classify()
+
+    def _everything_classified(self):
+        self._save_results()
+        self._application.exit()
 
     def _save_results(self, path=Defaults.output_path):
         self._image_service.save_results(path)
