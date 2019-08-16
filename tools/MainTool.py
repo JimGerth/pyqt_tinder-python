@@ -18,7 +18,7 @@ class MainTool(QMainWindow):
         super().__init__(parent)
         self._application = application
 
-        self._ui = MatplotTinderUI(parent=self)
+        self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
             raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
 

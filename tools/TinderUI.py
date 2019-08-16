@@ -45,6 +45,7 @@ class TinderUI(QWidget, UI):
 
     def paintEvent(self, event):
         painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
 
         iw = self._image.width or 250
         ih = self._image.height or 250
