@@ -18,7 +18,7 @@ class TinderUI(QWidget, UI):
         super().__init__(parent)
         self._position = QPointF(0, 0)
         self._opacity = 1.0
-        self._scale = 3.0
+        self._scale = 3.5
         self.setMinimumSize(500, 500)
 
         self._image = None
@@ -125,11 +125,7 @@ class TinderUI(QWidget, UI):
 
     def reset(self, was_classified):
         if was_classified:
-            self.animation0 = QPropertyAnimation(self, b'position')
-            self.animation0.setStartValue(self.position)
-            self.animation0.setEndValue(QPointF(0, 0))
-            self.animation0.setDuration(10)
-            self.animation0.start()
+            self.position = QPointF(0, 0)
 
             self.animation1 = QPropertyAnimation(self, b'opacity')
             self.animation1.setStartValue(0)
@@ -138,8 +134,8 @@ class TinderUI(QWidget, UI):
             self.animation1.start()
 
             self.animation2 = QPropertyAnimation(self, b'scale')
-            self.animation2.setStartValue(2)
-            self.animation2.setEndValue(3)
+            self.animation2.setStartValue(self.scale - 1)
+            self.animation2.setEndValue(self.scale)
             self.animation2.setDuration(75)
             self.animation2.start()
 
