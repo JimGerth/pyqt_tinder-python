@@ -34,6 +34,7 @@ class ImageService:
         image_data_array = FileService().read_h5_file(path)
         for id, image_data in enumerate(image_data_array):
             self._image_queue.enqueue(Image(id, image_data))
+        self._image_queue.shuffle()
         self._get_next_image()
 
     def _get_next_image(self):

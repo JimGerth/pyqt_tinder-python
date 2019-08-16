@@ -44,15 +44,41 @@ class TinderUI(QWidget, UI):
         return True
 
     def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-
         iw = self._image.width or 250
         ih = self._image.height or 250
         ww = self.width()
         wh = self.height()
 
+        #setup painter
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.Antialiasing)
         painter.translate(ww / 2, wh / 2)
+
+        self._paint_circles(painter)
+        self._paint_image(iw, ih, painter)
+
+    def _paint_circles(self, painter):
+        painter.setPen(Defaults.pen)
+        if self.position.x() > 0:
+            painter.setBrush(Defaults.single_color)
+            painter.drawEllipse(QPointF(self.width() / 2, 0),
+                                (self.width() / 4) * (self.position.x() / (self.width() / 2)) / 2,
+                                self.height() / 2 + self.height() * 0.1)
+        else:
+            painter.setBrush(Defaults.multi_color)
+            painter.drawEllipse(QPointF(-self.width() / 2, 0),
+                                (self.width() / 4) * (self.position.x() / (self.width() / 2)) / 2,
+                                self.height() / 2 + self.height() * 0.1)
+        if self.position.y() < 0:
+            painter.setBrush(Defaults.skip_color)
+            painter.drawEllipse(QPointF(0, -self.height() / 2), self.width() / 2 + self.width() * 0.1,
+                                (self.height() / 4) * (-self.position.y() / (self.height() / 2)) / 2)
+        else:
+            painter.setBrush(Defaults.skip_color)
+            painter.drawEllipse(QPointF(0, self.height() / 2), self.width() / 2 + self.width() * 0.1,
+                                (self.height() / 4) * (-self.position.y() / (self.height() / 2)) / 2)
+
+    def _paint_image(self, iw, ih, painter):
         painter.translate(self.position.x(), self.position.y())
         painter.rotate(self.rotation)
         painter.scale(self.scale_factor, self.scale_factor)
