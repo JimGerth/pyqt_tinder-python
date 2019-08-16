@@ -1,7 +1,7 @@
 import numpy as np
 from PyQt5.Qt import QGestureRecognizer, QPointF, pyqtProperty
 from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation
-from PyQt5.QtGui import QPainter
+from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget
 
 from tools.UI import UI
@@ -83,6 +83,8 @@ class TinderUI(QWidget, UI):
         painter.rotate(self.rotation)
         painter.scale(self.scale_factor, self.scale_factor)
         painter.translate(-iw / 2, -ih / 2)
+        painter.setBrush(QColor(0, 0, 0, 15))
+        painter.drawRect(3, 3, iw, ih)
         if not self._image:
             painter.drawRect(0, 0, iw, ih)
         else:
