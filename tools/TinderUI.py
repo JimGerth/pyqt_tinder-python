@@ -1,6 +1,6 @@
 import numpy as np
 from PyQt5.Qt import QGestureRecognizer, QPointF, pyqtProperty
-from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation
+from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWidgets import QWidget
 
@@ -108,7 +108,8 @@ class TinderUI(QWidget, UI):
             self.animation = QPropertyAnimation(self, b'position')
             self.animation.setStartValue(self.position)
             self.animation.setEndValue(QPointF(0, 0))
-            self.animation.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 250)
+            self.animation.setEasingCurve(QEasingCurve.OutBack)
+            self.animation.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 500)
             self.animation.start()
         else:
             self.position = QPointF(0, 0)
