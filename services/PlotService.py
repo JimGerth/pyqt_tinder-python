@@ -16,5 +16,7 @@ class PlotService:
         image.q_image = q_image
 
     def convert_to_pixmap(self, image, cmap=Defaults.cmap):
-        q_pixmap = QPixmap.fromImage(self.convert_to_image(image, cmap))
+        if not image.q_image:
+            self.convert_to_image(image, cmap)
+        q_pixmap = QPixmap.fromImage(image.q_image)
         image.q_pixmap = q_pixmap
