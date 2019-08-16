@@ -17,7 +17,8 @@ class TinderUI(QWidget, UI):
     def __init__(self, parent=None):
         super().__init__(parent)
         self._position = QPointF(0, 0)
-        self.scale_factor = 3
+        self._opacity = 1.0
+        self._scale = 3.0
         self.setMinimumSize(500, 500)
 
         self._image = None
@@ -31,8 +32,26 @@ class TinderUI(QWidget, UI):
 
     @position.setter
     def position(self, pos):
-        self.update()
         self._position = pos
+        self.update()
+
+    @pyqtProperty("float")
+    def opacity(self):
+        return self._opacity
+
+    @opacity.setter
+    def opacity(self, opacity):
+        self._opacity = opacity
+        self.update()
+
+    @pyqtProperty("float")
+    def scale(self):
+        return self._scale
+
+    @scale.setter
+    def scale(self, scale):
+        self._scale = scale
+        self.update()
 
     @property
     def rotation(self):
@@ -91,8 +110,9 @@ class TinderUI(QWidget, UI):
         # setting painter up to right location and orientation to draw
         painter.translate(self.position.x(), self.position.y())
         painter.rotate(self.rotation)
-        painter.scale(self.scale_factor, self.scale_factor)
+        painter.scale(self.scale, self.scale)
         painter.translate(-iw / 2, -ih / 2)
+        painter.setOpacity(self.opacity)
         # drawing a shadow
         painter.setBrush(QColor(0, 0, 0, 15))
         painter.drawRect(3, 3, iw, ih)
@@ -103,35 +123,51 @@ class TinderUI(QWidget, UI):
         else:
             painter.drawImage(0, 0, self._image.q_image)
 
-    def reset(self, animated):
-        if animated:
-            self.animation = QPropertyAnimation(self, b'position')
-            self.animation.setStartValue(self.position)
-            self.animation.setEndValue(QPointF(0, 0))
-            self.animation.setEasingCurve(QEasingCurve.OutBack)
-            self.animation.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 500)
-            self.animation.start()
+    def reset(self, was_classified):
+        if was_classified:
+            self.animation0 = QPropertyAnimation(self, b'position')
+            self.animation0.setStartValue(self.position)
+            self.animation0.setEndValue(QPointF(0, 0))
+            self.animation0.setDuration(10)
+            self.animation0.start()
+
+            self.animation1 = QPropertyAnimation(self, b'opacity')
+            self.animation1.setStartValue(0)
+            self.animation1.setEndValue(1)
+            self.animation1.setDuration(75)
+            self.animation1.start()
+
+            self.animation2 = QPropertyAnimation(self, b'scale')
+            self.animation2.setStartValue(2)
+            self.animation2.setEndValue(3)
+            self.animation2.setDuration(75)
+            self.animation2.start()
+
         else:
-            self.position = QPointF(0, 0)
-            self.update()
+            self.animation3 = QPropertyAnimation(self, b'position')
+            self.animation3.setStartValue(self.position)
+            self.animation3.setEndValue(QPointF(0, 0))
+            self.animation3.setEasingCurve(QEasingCurve.OutBack)
+            self.animation3.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 500)
+            self.animation3.start()
 
     def pan_triggered(self, pan_gesture):
         delta = pan_gesture.delta()
         self.position += delta
         if pan_gesture.state() == Qt.GestureFinished:
-            self._check_if_classified()
-            self.reset(True)
+            self.reset(self._check_if_classified())
 
     def _check_if_classified(self):
         if self.position.x() > self.width() / 2 - self.width() * 0.1:
             self._classify_single()
-            self.reset(False)
+            return True
         elif self.position.x() < -self.width() / 2 + self.width() * 0.1:
             self._classify_multi()
-            self.reset(False)
+            return True
         elif self.position.y() < -self.height() / 2 + self.height() * 0.1 or self.position.y() > self.height() / 2 - self.height() * 0.1:
             self._classify_skip()
-            self.reset(False)
+            return True
+        return False
 
     def show_image(self, image, cmap=Defaults.cmap, interpolation='gaussian'):
         if not image.q_image:
