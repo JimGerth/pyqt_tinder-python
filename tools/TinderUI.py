@@ -107,13 +107,13 @@ class TinderUI(QWidget, UI):
             self.reset()
 
     def _check_if_classified(self):
-        if self.position.x() > self.width() / 2:
+        if self.position.x() > self.width() / 2 - self.width() * 0.1:
             self._classify_single()
             self.reset()
-        elif self.position.x() < -self.width() / 2:
+        elif self.position.x() < -self.width() / 2 + self.width() * 0.1:
             self._classify_multi()
             self.reset()
-        elif self.position.y() < -self.height() / 2 or self.position.y() > self.height() / 2:
+        elif self.position.y() < -self.height() / 2 + self.height() * 0.1 or self.position.y() > self.height() / 2 - self.height() * 0.1:
             self._classify_skip()
             self.reset()
 
