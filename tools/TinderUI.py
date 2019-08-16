@@ -16,14 +16,23 @@ class TinderUI(QWidget, UI):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.position = QPointF(0, 0)
+        self._position = QPointF(0, 0)
         self.scale_factor = 3
-        self.setMinimumSize(100, 100)
+        self.setMinimumSize(500, 500)
 
         self._image = None
 
         id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
         self.grabGesture(id)
+
+    @pyqtProperty("QPointF")
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, pos):
+        self.update()
+        self._position = pos
 
     @property
     def rotation(self):
@@ -79,26 +88,31 @@ class TinderUI(QWidget, UI):
                                 (self.height() / 4) * (-self.position.y() / (self.height() / 2)) / 2)
 
     def _paint_image(self, iw, ih, painter):
+        # setting painter up to right location and orientation to draw
         painter.translate(self.position.x(), self.position.y())
         painter.rotate(self.rotation)
         painter.scale(self.scale_factor, self.scale_factor)
         painter.translate(-iw / 2, -ih / 2)
+        # drawing a shadow
         painter.setBrush(QColor(0, 0, 0, 15))
         painter.drawRect(3, 3, iw, ih)
+        # drawing the image (or a rectangle if there is no image)
         if not self._image:
+            painter.setBrush(QColor(150, 150, 150))
             painter.drawRect(0, 0, iw, ih)
         else:
             painter.drawImage(0, 0, self._image.q_image)
 
-    def reset(self):
-        #self.animation = QPropertyAnimation(self, b'position')
-        #self.animation.setStartValue(self.position)
-        #self.animation.setEndValue(QPointF(0, 0))
-        #self.animation.setDuration(100)
-        #self.animation.start()
-        self.position = QPointF(0, 0)
-        self.scale_factor = 3
-        self.update()
+    def reset(self, animated):
+        if animated:
+            self.animation = QPropertyAnimation(self, b'position')
+            self.animation.setStartValue(self.position)
+            self.animation.setEndValue(QPointF(0, 0))
+            self.animation.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 250)
+            self.animation.start()
+        else:
+            self.position = QPointF(0, 0)
+            self.update()
 
     def pan_triggered(self, pan_gesture):
         delta = pan_gesture.delta()
@@ -106,18 +120,18 @@ class TinderUI(QWidget, UI):
         self.update()
         if pan_gesture.state() == Qt.GestureFinished:
             self._check_if_classified()
-            self.reset()
+            self.reset(True)
 
     def _check_if_classified(self):
         if self.position.x() > self.width() / 2 - self.width() * 0.1:
             self._classify_single()
-            self.reset()
+            self.reset(False)
         elif self.position.x() < -self.width() / 2 + self.width() * 0.1:
             self._classify_multi()
-            self.reset()
+            self.reset(False)
         elif self.position.y() < -self.height() / 2 + self.height() * 0.1 or self.position.y() > self.height() / 2 - self.height() * 0.1:
             self._classify_skip()
-            self.reset()
+            self.reset(False)
 
     def show_image(self, image, cmap=Defaults.cmap, interpolation='gaussian'):
         if not image.q_image:
