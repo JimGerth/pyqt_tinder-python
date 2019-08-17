@@ -1,13 +1,15 @@
 import numpy as np
 from PyQt5.Qt import QGestureRecognizer, QPointF, pyqtProperty
 from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation, QEasingCurve
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtGui import QPainter, QColor, QImage
 from PyQt5.QtWidgets import QWidget
 
 from tools.UI import UI
 
 from services.PanGestureRecognizer import PanGestureRecognizer
 from services.PlotService import PlotService
+
+from materials.Image import Image
 
 from data.Defaults import Defaults
 
@@ -22,6 +24,8 @@ class TinderUI(QWidget, UI):
         self.setMinimumSize(500, 500)
 
         self._image = None
+        self.show_title_card = True
+        self._load_title_card()
 
         id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
         self.grabGesture(id)
@@ -63,6 +67,11 @@ class TinderUI(QWidget, UI):
         if self.position.x() < 0:
             return -a * 10
         return a * 10
+
+    def _load_title_card(self):
+        title_card = QImage(Defaults.title_card_file_path)
+        self.title_image = Image(None, None)
+        self.title_image.q_image = title_card
 
     def event(self, event):
         if event.type() == QEvent.Gesture and event.gesture(Qt.PanGesture):
@@ -121,10 +130,15 @@ class TinderUI(QWidget, UI):
             painter.setBrush(QColor(150, 150, 150))
             painter.drawRect(0, 0, iw, ih)
         else:
-            painter.drawImage(0, 0, self._image.q_image)
+            if self.show_title_card:
+                painter.scale(100/1024, 100/1024)
+                painter.drawImage(0, 0, self.title_image.q_image)
+            else:
+                painter.drawImage(0, 0, self._image.q_image)
 
     def reset(self, was_classified):
         if was_classified:
+            self.show_title_card = False
             self.position = QPointF(0, 0)
 
             self.animation1 = QPropertyAnimation(self, b'opacity')

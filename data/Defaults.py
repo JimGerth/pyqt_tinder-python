@@ -12,3 +12,4 @@ class Defaults:
     skip_color = QColor(255, 194, 35, 130)
     multi_color = QColor(236, 0, 28, 130)
     sensibility = 1
+    title_card_file_path = 'data/TitleCard2.png'
