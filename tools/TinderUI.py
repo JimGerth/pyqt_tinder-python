@@ -149,7 +149,7 @@ class TinderUI(QWidget, UI):
 
     def pan_triggered(self, pan_gesture):
         delta = pan_gesture.delta()
-        self.position += delta
+        self.position += delta * Defaults.sensibility
         if pan_gesture.state() == Qt.GestureFinished:
             self.reset(self._check_if_classified())
 

@@ -11,3 +11,4 @@ class Defaults:
     single_color = QColor(22, 153, 0, 130)
     skip_color = QColor(255, 194, 35, 130)
     multi_color = QColor(236, 0, 28, 130)
+    sensibility = 1
