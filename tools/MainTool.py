@@ -93,7 +93,7 @@ class MainTool(QMainWindow):
 
     def _save_results(self):
         if not self._save_path:
-            self._save_path = QFileDialog.getSaveFileName(self, 'save classifications', './output.csv', 'CSV Files (*.csv)')[0]
+            self._save_path = QFileDialog.getSaveFileName(self, 'save classifications', Defaults.output_path, 'CSV Files (*.csv)')[0]
         try:
             self._image_service.save_results(self._save_path)
             self._saved = True
