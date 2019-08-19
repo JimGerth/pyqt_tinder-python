@@ -24,11 +24,10 @@ class TinderUI(QWidget, UI):
         self.setMinimumSize(600, 600)
 
         self._image = None
-        self.show_title_card = True
+        self._show_title_card = True
         self._load_title_card()
 
-        id = QGestureRecognizer.registerRecognizer(PanGestureRecognizer())
-        self.grabGesture(id)
+        self.grabGesture(QGestureRecognizer.registerRecognizer(PanGestureRecognizer()))
 
     @pyqtProperty("QPointF")
     def position(self):
@@ -184,7 +183,7 @@ class TinderUI(QWidget, UI):
             painter.setBrush(QColor(150, 150, 150))
             painter.drawRect(0, 0, iw, ih)
         else:
-            if self.show_title_card:
+            if self._show_title_card:
                 painter.scale(100/1024, 100/1024)
                 painter.drawImage(0, 0, self.title_image.q_image)
             else:
@@ -197,7 +196,7 @@ class TinderUI(QWidget, UI):
 
     def _reset(self, was_classified):
         if was_classified:
-            self.show_title_card = False
+            self._show_title_card = False
             self.position = QPointF(0, 0)
 
             self.animation1 = QPropertyAnimation(self, b'opacity')
@@ -228,13 +227,16 @@ class TinderUI(QWidget, UI):
 
     def _check_if_classified(self):
         if self.position.x() > self.width() / 2 - self.width() * 0.1:
-            self._classify_single()
+            if not self._show_title_card:
+                self._classify_single()
             return True
         elif self.position.x() < -self.width() / 2 + self.width() * 0.1:
-            self._classify_multi()
+            if not self._show_title_card:
+                self._classify_multi()
             return True
         elif self.position.y() < -self.height() / 2 + self.height() * 0.1 or self.position.y() > self.height() / 2 - self.height() * 0.1:
-            self._classify_skip()
+            if not self._show_title_card:
+                self._classify_skip()
             return True
         return False
 
