@@ -63,22 +63,19 @@ class MainTool(QMainWindow):
 
     def _image_classified_single(self):
         self._image_service.classify_image('single')
-        if self._image_service.num_images_to_classify == 0:
-            self._everything_classified()
+        self._saved = False
+        if self._image_service.done:
+            self._show_thank_you_screen()
         else:
             self._show_image_to_classify()
 
     def _image_classified_multi(self):
         self._image_service.classify_image('multi')
-        if self._image_service.num_images_to_classify == 0:
-            self._everything_classified()
+        self._saved = False
+        if self._image_service.done:
+            self._show_thank_you_screen()
         else:
             self._show_image_to_classify()
-
-    def _everything_classified(self):
-        if not self._saved:
-            self._save_results()
-        self._show_thank_you_screen()
 
     def  _show_thank_you_screen(self):
         thank_you_screen = QMessageBox()
@@ -90,7 +87,8 @@ class MainTool(QMainWindow):
         thank_you_screen.exec()
 
     def _exit(self):
-        self._save_results()
+        while not self._saved:
+            self._save_results()
         self._application.exit()
 
     def _save_results(self):

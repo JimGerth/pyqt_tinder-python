@@ -31,6 +31,10 @@ class ImageService:
     def num_images_to_classify(self):
         return len(self._image_queue)
 
+    @property
+    def done(self):
+        return self.num_images_to_classify == 0 and not self.current_image
+
     def load_images(self, path):
         image_data_array = FileService().read_h5_file(path)
         for id, image_data in enumerate(image_data_array):
