@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
-from PyQt5.QtGui import QGuiApplication
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QAction, QMenu, QMenuBar
+from PyQt5.QtGui import QGuiApplication, QKeySequence
 from PyQt5.QtCore import QRect
 
 from tools.MainToolUI import MainToolUI
@@ -17,6 +17,15 @@ class MainTool(QMainWindow):
     def __init__(self, parent=None, application=None):
         super().__init__(parent)
         self._application = application
+        self._saved = False
+
+        self.setMenuBar(QMenuBar())
+        self.save_action = QAction('Save')
+        self.save_action.setShortcut(QKeySequence.Save)
+        self.save_action.triggered.connect(self._save_results)
+        self.file_menu = QMenu('File')
+        self.file_menu.addAction(self.save_action)
+        self.menuBar().addMenu(self.file_menu)
 
         self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
@@ -43,6 +52,7 @@ class MainTool(QMainWindow):
         self._ui.connect_multi_classification_listener(self._image_classified_multi)
 
     def _show_image_to_classify(self):
+        self.setWindowTitle('{} classified multi   |   {} classified single   |   {} to go!'.format(self._image_service.num_classified_multi, self._image_service.num_classified_single, self._image_service.num_images_to_classify + 1))
         self._ui.show_image(self._image_service.current_image)
 
     def _image_skipped(self):
@@ -51,17 +61,21 @@ class MainTool(QMainWindow):
 
     def _image_classified_single(self):
         self._image_service.classify_image('single')
-        if self._image_service.done:
+        if self._image_service.num_images_to_classify == 0:
             self._everything_classified()
-        self._show_image_to_classify()
+        else:
+            self._show_image_to_classify()
 
     def _image_classified_multi(self):
         self._image_service.classify_image('multi')
-        if self._image_service.done:
+        if self._image_service.num_images_to_classify == 0:
             self._everything_classified()
-        self._show_image_to_classify()
+        else:
+            self._show_image_to_classify()
 
     def _everything_classified(self):
+        if not self._saved:
+            self._save_results()
         self._show_thank_you_screen()
 
     def  _show_thank_you_screen(self):

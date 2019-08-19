@@ -18,6 +18,9 @@ class ImageService:
         self.current_image = None
         self._next_image = None
 
+        self.num_classified_single = 0
+        self.num_classified_multi = 0
+
         self._thread_pool = QThreadPool()
 
         if path:
@@ -25,10 +28,8 @@ class ImageService:
             # if no path was supplied load_images(path) has to be called, before working with ImageService!
 
     @property
-    def done(self):
-        if len(self._image_queue) == 0:
-            return True
-        return False
+    def num_images_to_classify(self):
+        return len(self._image_queue)
 
     def load_images(self, path):
         image_data_array = FileService().read_h5_file(path)
@@ -44,7 +45,10 @@ class ImageService:
         else:
             self.current_image = self._image_queue.dequeue()
 
-        self._preload_next_image()
+        try:
+            self._preload_next_image()
+        except:
+            pass
 
     def _preload_next_image(self): # preloads next image in queue into memory in a different thread
         self._next_image = self._image_queue.peek()
@@ -55,9 +59,16 @@ class ImageService:
         self._get_next_image()
 
     def classify_image(self, category):
+        if category == 'single':
+            self.num_classified_single += 1
+        elif category == 'multi':
+            self.num_classified_multi += 1
         self.current_image.classify(category)
         self._classified_images.append(self.current_image)
-        self._get_next_image()
+        try:
+            self._get_next_image()
+        except:
+            self.current_image = None
 
     def save_results(self, path=Defaults.output_path):
         output = 'image_id,category\n'
