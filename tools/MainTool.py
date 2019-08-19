@@ -23,10 +23,9 @@ class MainTool(QMainWindow):
         self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
             raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
-
-        self._set_screen_size()
-        self._setup_menu_bar()
         self.setCentralWidget(self._ui)
+        self._setup_menu_bar()
+        self._set_screen_size()
         self._create_connections()
         self._show_image_to_classify()
 
