@@ -30,6 +30,7 @@ class PanGestureRecognizer(QGestureRecognizer):
         if event.type() == QEvent.MouseButtonRelease:
             end_point = event.pos()
             if self.start_point == end_point:
+                self.panning = False
                 return QGestureRecognizer.CancelGesture
             self.panning = False
             gesture.setLastOffset(gesture.offset())
@@ -38,7 +39,7 @@ class PanGestureRecognizer(QGestureRecognizer):
 
         if event.type() == QEvent.MouseButtonDblClick:
             self.panning = False
-            return QGestureRecognizer.CancelGesture
+            return QGestureRecognizer.FinishGesture
 
         if not event.type() == QEvent.MouseButtonPress or event.type() == QEvent.MouseMove or event.type() == QEvent.MouseButtonRelease or event.type() == QEvent.MouseButtonDblClick:
             return QGestureRecognizer.Ignore
