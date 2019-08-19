@@ -180,9 +180,11 @@ class TinderUI(QWidget, UI):
         painter.scale(self.scale, self.scale)
         painter.translate(-iw / 2, -ih / 2)
         painter.setOpacity(self.opacity)
+
         # drawing a shadow
-        painter.setBrush(QColor(0, 0, 0, 15))
-        painter.drawRect(3, 3, iw, ih)
+        # painter.setBrush(QColor(0, 0, 0, 15))
+        # painter.drawRect(3, 3, iw, ih)
+
         # drawing the image (or a rectangle if there is no image)
         if not self._image:
             painter.setBrush(QColor(150, 150, 150))
