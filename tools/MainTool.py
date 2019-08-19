@@ -29,8 +29,8 @@ class MainTool(QMainWindow):
         self._create_connections()
         self._show_image_to_classify()
 
-    def __del__(self):
-        self._exit()
+    # def __del__(self):
+    #     self._exit()
 
     def _setup_menu_bar(self):
         self.setMenuBar(QMenuBar())
