@@ -12,7 +12,7 @@ class Defaults:
     skip_color = QColor(255, 194, 35, 130) #FFC223
     multi_color = QColor(236, 0, 28, 130)  #EC001C
     sensibility = 1.5
-    title_card_file_path = 'data/TitleCard2.png'
+    title_card_file_path = 'data/title_card_2.png'
     check_icon_path = 'data/single.png'
     clock_icon_path = 'data/circle_clock.png'
     cross_icon_path = 'data/multi2.png'

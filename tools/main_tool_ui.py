@@ -4,9 +4,9 @@ from PyQt5.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
 from matplotlib.figure import Figure
 
-from tools.UI import UI
+from tools.ui import UI
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class MainToolUI(QWidget, UI):

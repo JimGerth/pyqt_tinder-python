@@ -1,13 +1,13 @@
 from PyQt5.Qt import QThreadPool
 
-from services.QueueService import QueueService
-from services.FileService import FileService
-from services.PlotService import PlotService
-from services.ThreadingService import ThreadingService
+from services.queue_service import QueueService
+from services.file_service import FileService
+from services.plot_service import PlotService
+from services.threading_service import ThreadingService
 
-from materials.Image import Image
+from materials.image import Image
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class ImageService:

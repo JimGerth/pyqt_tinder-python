@@ -8,11 +8,11 @@ from matplotlib.figure import Figure
 
 import numpy as np
 
-from tools.UI import UI
+from tools.ui import UI
 
-from services.PanGestureRecognizer import PanGestureRecognizer
+from services.pan_gesture_recognizer import PanGestureRecognizer
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class MatplotTinderUI(QWidget, UI):

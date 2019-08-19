@@ -4,14 +4,14 @@ from PyQt5.QtCore import QEvent, Qt, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPainter, QColor, QImage
 from PyQt5.QtWidgets import QWidget
 
-from tools.UI import UI
+from tools.ui import UI
 
-from services.PanGestureRecognizer import PanGestureRecognizer
-from services.PlotService import PlotService
+from services.pan_gesture_recognizer import PanGestureRecognizer
+from services.plot_service import PlotService
 
-from materials.Image import Image
+from materials.image import Image
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class TinderUI(QWidget, UI):

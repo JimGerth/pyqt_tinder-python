@@ -1,4 +1,4 @@
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class UI: # interface for all UI classes that are compatible with this program

@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 
-from tools.MainTool import MainTool
+from tools.main_tool import MainTool
 
 application = QApplication([])
 

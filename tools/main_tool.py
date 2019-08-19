@@ -2,14 +2,14 @@ from PyQt5.QtWidgets import QMainWindow, QMessageBox, QAction, QMenu, QMenuBar, 
 from PyQt5.QtGui import QGuiApplication, QKeySequence
 from PyQt5.QtCore import QRect
 
-from tools.MainToolUI import MainToolUI
-from tools.TinderUI import TinderUI
-from tools.MatplotTinderUI import MatplotTinderUI
-from tools.UI import UI
+from tools.main_tool_ui import MainToolUI
+from tools.tinder_ui import TinderUI
+from tools.matplot_tinder_ui import MatplotTinderUI
+from tools.ui import UI
 
-from services.ImageService import ImageService
+from services.image_service import ImageService
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class MainTool(QMainWindow):
@@ -22,7 +22,7 @@ class MainTool(QMainWindow):
         self._image_service = ImageService(Defaults.image_data_file_path)
         self._ui = TinderUI(parent=self)
         if not isinstance(self._ui, UI):
-            raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
+            raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/ui.py for specifications')
         self.setCentralWidget(self._ui)
         self._setup_menu_bar()
         self._set_screen_size()

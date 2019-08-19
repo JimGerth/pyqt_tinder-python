@@ -3,7 +3,7 @@ from matplotlib import colors
 from matplotlib import cm
 import qimage2ndarray as i2a
 
-from data.Defaults import Defaults
+from data.defaults import Defaults
 
 
 class PlotService:
