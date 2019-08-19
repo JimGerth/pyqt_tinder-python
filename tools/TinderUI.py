@@ -118,44 +118,49 @@ class TinderUI(QWidget, UI):
     def _paint_icons(self, painter):
         size = 75
         margin = 10
+        opacity = 130/255
 
         painter.save()
         painter.translate(self.width() / 2 - size / 2 - margin, 0)
+        painter.setOpacity(opacity)
         if self.position.x() > 0:
             painter.translate(-self.position.x() * 0.1, 0)
+            painter.setOpacity(opacity * (1 - self.position.x() / self.width()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75/256, 75/256)
-        painter.setOpacity(130/255)
         painter.drawImage(0, 0, QImage('data/circle_check.png'))
         painter.restore()
 
         painter.save()
         painter.translate(-self.width() / 2 + size / 2 + margin, 0)
+        painter.setOpacity(opacity)
         if self.position.x() < 0:
             painter.translate(-self.position.x() * 0.1, 0)
+            painter.setOpacity(opacity * (1 + self.position.x() / self.width()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.setOpacity(130 / 255)
         painter.drawImage(0, 0, QImage('data/circle_cross.png'))
         painter.restore()
 
         painter.save()
         painter.translate(0, -self.height() / 2 + size / 2 + margin)
+        painter.setOpacity(opacity)
         if self.position.y() < 0:
             painter.translate(0, -self.position.y() * 0.1)
+            painter.setOpacity(opacity * (1 + self.position.y() / self.height()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.setOpacity(130 / 255)
         painter.drawImage(0, 0, QImage('data/circle_clock.png'))
         painter.restore()
 
         painter.save()
         painter.translate(0, self.height() / 2 - size / 2 - margin)
+        painter.setOpacity(opacity)
         if self.position.y() > 0:
             painter.translate(0, -self.position.y() * 0.1)
+            painter.setOpacity(opacity * (1 - self.position.y() / self.height()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.setOpacity(130 / 255)
         painter.drawImage(0, 0, QImage('data/circle_clock.png'))
         painter.restore()
 
