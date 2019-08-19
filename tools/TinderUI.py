@@ -21,7 +21,7 @@ class TinderUI(QWidget, UI):
         self._position = QPointF(0, 0)
         self._opacity = 1.0
         self._scale = 3.5
-        self.setMinimumSize(500, 500)
+        self.setMinimumSize(600, 600)
 
         self._image = None
         self.show_title_card = True
@@ -125,12 +125,12 @@ class TinderUI(QWidget, UI):
         margin = 10
         opacity = 130/255
 
+        painter.setOpacity(opacity * (1 - np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width() / 2, self.height() / 2])))
+
         painter.save()
         painter.translate(self.width() / 2 - size / 2 - margin, 0)
-        painter.setOpacity(opacity)
         if self.position.x() > 0:
             painter.translate(-self.position.x() * 0.1, 0)
-            painter.setOpacity(opacity * (1 - self.position.x() / self.width()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75/256, 75/256)
         painter.drawImage(0, 0, QImage('data/circle_check.png'))
@@ -138,10 +138,8 @@ class TinderUI(QWidget, UI):
 
         painter.save()
         painter.translate(-self.width() / 2 + size / 2 + margin, 0)
-        painter.setOpacity(opacity)
         if self.position.x() < 0:
             painter.translate(-self.position.x() * 0.1, 0)
-            painter.setOpacity(opacity * (1 + self.position.x() / self.width()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage('data/circle_cross.png'))
@@ -149,10 +147,8 @@ class TinderUI(QWidget, UI):
 
         painter.save()
         painter.translate(0, -self.height() / 2 + size / 2 + margin)
-        painter.setOpacity(opacity)
         if self.position.y() < 0:
             painter.translate(0, -self.position.y() * 0.1)
-            painter.setOpacity(opacity * (1 + self.position.y() / self.height()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage('data/circle_clock.png'))
@@ -160,10 +156,8 @@ class TinderUI(QWidget, UI):
 
         painter.save()
         painter.translate(0, self.height() / 2 - size / 2 - margin)
-        painter.setOpacity(opacity)
         if self.position.y() > 0:
             painter.translate(0, -self.position.y() * 0.1)
-            painter.setOpacity(opacity * (1 - self.position.y() / self.height()))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage('data/circle_clock.png'))
