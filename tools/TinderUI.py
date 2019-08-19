@@ -75,7 +75,7 @@ class TinderUI(QWidget, UI):
 
     def event(self, event):
         if event.type() == QEvent.Gesture and event.gesture(Qt.PanGesture):
-            self.pan_triggered(event.gesture(Qt.PanGesture))
+            self._pan_triggered(event.gesture(Qt.PanGesture))
         else:
             super().event(event)
         return True
@@ -201,7 +201,7 @@ class TinderUI(QWidget, UI):
                 painter.drawImage(0, 0, self._image.q_image)
         painter.restore()
 
-    def reset(self, was_classified):
+    def _reset(self, was_classified):
         if was_classified:
             self.show_title_card = False
             self.position = QPointF(0, 0)
@@ -226,11 +226,11 @@ class TinderUI(QWidget, UI):
             self.animation3.setDuration((np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width(), self.height()])) * 500)
             self.animation3.start()
 
-    def pan_triggered(self, pan_gesture):
+    def _pan_triggered(self, pan_gesture):
         delta = pan_gesture.delta()
         self.position += delta * Defaults.sensibility
         if pan_gesture.state() == Qt.GestureFinished:
-            self.reset(self._check_if_classified())
+            self._reset(self._check_if_classified())
 
     def _check_if_classified(self):
         if self.position.x() > self.width() / 2 - self.width() * 0.1:
