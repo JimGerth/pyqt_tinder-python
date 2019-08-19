@@ -80,6 +80,11 @@ class TinderUI(QWidget, UI):
             super().event(event)
         return True
 
+    def wheelEvent(self, e):
+        self.scale -= e.pixelDelta().y() * 0.01
+        if self.scale < 0.1:
+            self.scale = 0.1
+
     def paintEvent(self, event):
         painter = self._setup_painter()
         self._paint_circles(painter)
