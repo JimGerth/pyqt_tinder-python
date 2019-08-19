@@ -8,8 +8,8 @@ class Defaults:
     output_path = 'output.csv'
     cmap = 'Spectral_r'
     pen = QPen(Qt.NoPen)
-    single_color = QColor(22, 153, 0, 130)
-    skip_color = QColor(255, 194, 35, 130)
-    multi_color = QColor(236, 0, 28, 130)
-    sensibility = 1
+    single_color = QColor(22, 153, 0, 130) #169900
+    skip_color = QColor(255, 194, 35, 130) #FFC223
+    multi_color = QColor(236, 0, 28, 130)  #EC001C
+    sensibility = 1.5
     title_card_file_path = 'data/TitleCard2.png'

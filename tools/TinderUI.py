@@ -60,7 +60,7 @@ class TinderUI(QWidget, UI):
     @property
     def rotation(self):
         pic = [self.position.x(), -self.position.y()]
-        pivot = [0, -500]
+        pivot = [0, -self.height()]
         v1 = np.subtract(pic, pivot)
         v2 = np.subtract([0, 0], pivot)
         a = np.arccos(np.divide(np.abs(np.dot(v1, v2)), (np.linalg.norm(v1) * np.linalg.norm(v2))))
@@ -134,10 +134,10 @@ class TinderUI(QWidget, UI):
                 painter.scale(100/1024, 100/1024)
                 painter.drawImage(0, 0, self.title_image.q_image)
             else:
-                painter.setCompositionMode(QPainter.CompositionMode_Source)
-                painter.setBrush(QColor(0, 0, 0))
-                painter.drawRoundedRect(0, 0, iw, ih, 2, 2)
-                painter.setCompositionMode(QPainter.CompositionMode_DestinationOver)
+            #     painter.setCompositionMode(QPainter.CompositionMode_Source)
+            #     painter.setBrush(QColor(0, 0, 0))
+            #     painter.drawRoundedRect(0, 0, iw, ih, 2, 2)
+            #     painter.setCompositionMode(QPainter.CompositionMode_DestinationOver)
                 painter.drawImage(0, 0, self._image.q_image)
 
     def reset(self, was_classified):
