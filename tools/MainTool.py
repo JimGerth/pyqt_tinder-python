@@ -19,7 +19,18 @@ class MainTool(QMainWindow):
         self._application = application
         self._saved = False
         self._save_path = None
+        self._image_service = ImageService(Defaults.image_data_file_path)
+        self._ui = TinderUI(parent=self)
+        if not isinstance(self._ui, UI):
+            raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
 
+        self._set_screen_size()
+        self._setup_menu_bar()
+        self.setCentralWidget(self._ui)
+        self._create_connections()
+        self._show_image_to_classify()
+
+    def _setup_menu_bar(self):
         self.setMenuBar(QMenuBar())
         self.save_action = QAction('Save')
         self.save_action.setShortcut(QKeySequence.Save)
@@ -31,19 +42,6 @@ class MainTool(QMainWindow):
         self.file_menu.addAction(self.save_action)
         self.file_menu.addAction(self.save_as_action)
         self.menuBar().addMenu(self.file_menu)
-
-        self._ui = TinderUI(parent=self)
-        if not isinstance(self._ui, UI):
-            raise TypeError('warning: supplied user interface class might not be compatible with this program. It has to be of type UI - check tools/UI.py for specifications')
-
-        self._set_screen_size()
-        self.setCentralWidget(self._ui)
-
-        self._image_service = ImageService(Defaults.image_data_file_path)
-
-        self._create_connections()
-
-        self._show_image_to_classify()
 
     def _set_screen_size(self): # should also be responsibility of the UI!
         screen_geometry = QGuiApplication.primaryScreen().availableGeometry()
@@ -99,7 +97,11 @@ class MainTool(QMainWindow):
     def _save_results(self):
         if not self._save_path:
             self._save_path = QFileDialog.getSaveFileName(self, 'save classifications', './output.csv', 'CSV Files (*.csv)')[0]
-        self._image_service.save_results(self._save_path)
+        try:
+            self._image_service.save_results(self._save_path)
+            self._saved = True
+        except:
+            self._saved = False
 
     def _save_as_results(self):
         self._save_path = None
