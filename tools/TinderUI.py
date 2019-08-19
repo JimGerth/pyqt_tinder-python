@@ -81,21 +81,20 @@ class TinderUI(QWidget, UI):
         return True
 
     def paintEvent(self, event):
-        iw = self._image.width or 250
-        ih = self._image.height or 250
-        ww = self.width()
-        wh = self.height()
+        painter = self._setup_painter()
+        self._paint_circles(painter)
+        self._paint_icons(painter)
+        self._paint_image(painter)
 
-        #setup painter
+    def _setup_painter(self):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        painter.translate(ww / 2, wh / 2)
-
-        self._paint_circles(painter)
-        self._paint_image(iw, ih, painter)
+        painter.translate(self.width() / 2, self.height() / 2)
+        painter.setPen(Defaults.pen)
+        return painter
 
     def _paint_circles(self, painter):
-        painter.setPen(Defaults.pen)
+        painter.save()
         if self.position.x() > 0:
             painter.setBrush(Defaults.single_color)
             painter.drawEllipse(QPointF(self.width() / 2, 0),
@@ -114,8 +113,57 @@ class TinderUI(QWidget, UI):
             painter.setBrush(Defaults.skip_color)
             painter.drawEllipse(QPointF(0, self.height() / 2), self.width() / 2 + self.width() * 0.1,
                                 (self.height() / 4) * (-self.position.y() / (self.height() / 2)) / 2)
+        painter.restore()
 
-    def _paint_image(self, iw, ih, painter):
+    def _paint_icons(self, painter):
+        size = 75
+        margin = 10
+
+        painter.save()
+        painter.translate(self.width() / 2 - size / 2 - margin, 0)
+        if self.position.x() > 0:
+            painter.translate(-self.position.x() * 0.1, 0)
+        painter.translate(-size / 2, -size / 2)
+        painter.scale(75/256, 75/256)
+        painter.setOpacity(130/255)
+        painter.drawImage(0, 0, QImage('data/circle_check.png'))
+        painter.restore()
+
+        painter.save()
+        painter.translate(-self.width() / 2 + size / 2 + margin, 0)
+        if self.position.x() < 0:
+            painter.translate(-self.position.x() * 0.1, 0)
+        painter.translate(-size / 2, -size / 2)
+        painter.scale(75 / 256, 75 / 256)
+        painter.setOpacity(130 / 255)
+        painter.drawImage(0, 0, QImage('data/circle_cross.png'))
+        painter.restore()
+
+        painter.save()
+        painter.translate(0, -self.height() / 2 + size / 2 + margin)
+        if self.position.y() < 0:
+            painter.translate(0, -self.position.y() * 0.1)
+        painter.translate(-size / 2, -size / 2)
+        painter.scale(75 / 256, 75 / 256)
+        painter.setOpacity(130 / 255)
+        painter.drawImage(0, 0, QImage('data/circle_clock.png'))
+        painter.restore()
+
+        painter.save()
+        painter.translate(0, self.height() / 2 - size / 2 - margin)
+        if self.position.y() > 0:
+            painter.translate(0, -self.position.y() * 0.1)
+        painter.translate(-size / 2, -size / 2)
+        painter.scale(75 / 256, 75 / 256)
+        painter.setOpacity(130 / 255)
+        painter.drawImage(0, 0, QImage('data/circle_clock.png'))
+        painter.restore()
+
+    def _paint_image(self, painter):
+        painter.save()
+        iw = self._image.width or 250
+        ih = self._image.height or 250
+
         # setting painter up to right location and orientation to draw
         painter.translate(self.position.x(), self.position.y())
         painter.rotate(self.rotation)
@@ -139,6 +187,7 @@ class TinderUI(QWidget, UI):
             #     painter.drawRoundedRect(0, 0, iw, ih, 2, 2)
             #     painter.setCompositionMode(QPainter.CompositionMode_DestinationOver)
                 painter.drawImage(0, 0, self._image.q_image)
+        painter.restore()
 
     def reset(self, was_classified):
         if was_classified:
