@@ -133,7 +133,7 @@ class TinderUI(QWidget, UI):
             painter.translate(-self.position.x() * 0.1, 0)
         painter.translate(-size / 2, -size / 2)
         painter.scale(75/256, 75/256)
-        painter.drawImage(0, 0, QImage('data/circle_check.png'))
+        painter.drawImage(0, 0, QImage(Defaults.check_icon_path))
         painter.restore()
 
         painter.save()
@@ -142,7 +142,7 @@ class TinderUI(QWidget, UI):
             painter.translate(-self.position.x() * 0.1, 0)
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.drawImage(0, 0, QImage('data/circle_cross.png'))
+        painter.drawImage(0, 0, QImage(Defaults.cross_icon_path))
         painter.restore()
 
         painter.save()
@@ -151,7 +151,7 @@ class TinderUI(QWidget, UI):
             painter.translate(0, -self.position.y() * 0.1)
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.drawImage(0, 0, QImage('data/circle_clock.png'))
+        painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
         painter.restore()
 
         painter.save()
@@ -160,7 +160,7 @@ class TinderUI(QWidget, UI):
             painter.translate(0, -self.position.y() * 0.1)
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
-        painter.drawImage(0, 0, QImage('data/circle_clock.png'))
+        painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
         painter.restore()
 
     def _paint_image(self, painter):

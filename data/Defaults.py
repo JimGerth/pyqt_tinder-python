@@ -13,3 +13,6 @@ class Defaults:
     multi_color = QColor(236, 0, 28, 130)  #EC001C
     sensibility = 1.5
     title_card_file_path = 'data/TitleCard2.png'
+    check_icon_path = 'data/circle_check.png'
+    clock_icon_path = 'data/circle_clock.png'
+    cross_icon_path = 'data/circle_cross.png'
