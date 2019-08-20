@@ -76,6 +76,6 @@ class ImageService:
 
     def save_results(self, path=Defaults.output_path):
         output = 'image_id,category\n'
-        for image in self._classified_images:
+        for image in sorted(self._classified_images, key=lambda img: img.id):
             output += '{},{}\n'.format(image.id, image.classification)
         FileService().write_csv_file(path, output)
