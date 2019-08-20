@@ -120,7 +120,8 @@ class TinderUI(QWidget, UI):
         painter.restore()
 
     def _paint_icons(self, painter):
-        size = 75
+        size = 60
+        res = 256
         margin = 10
         opacity = 130/255 * (1 - np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width() / 2, self.height() / 2]))
         painter.setOpacity(opacity)
@@ -131,7 +132,7 @@ class TinderUI(QWidget, UI):
             painter.translate(-self.position.x() * 0.1, 0)
             painter.setOpacity(opacity + 130/255 * self.position.x() / (self.width() / 2))
         painter.translate(-size / 2, -size / 2)
-        painter.scale(75/256, 75/256)
+        painter.scale(size/res, size/res)
         painter.drawImage(0, 0, QImage(Defaults.check_icon_path))
         painter.restore()
 
@@ -141,7 +142,7 @@ class TinderUI(QWidget, UI):
             painter.translate(-self.position.x() * 0.1, 0)
             painter.setOpacity(opacity + 130 / 255 * -self.position.x() / (self.width() / 2))
         painter.translate(-size / 2, -size / 2)
-        painter.scale(75 / 256, 75 / 256)
+        painter.scale(size / res, size / res)
         painter.drawImage(0, 0, QImage(Defaults.cross_icon_path))
         painter.restore()
 
@@ -151,7 +152,7 @@ class TinderUI(QWidget, UI):
             painter.translate(0, -self.position.y() * 0.1)
             painter.setOpacity(opacity + 130 / 255 * -self.position.y() / (self.height() / 2))
         painter.translate(-size / 2, -size / 2)
-        painter.scale(75 / 256, 75 / 256)
+        painter.scale(size / res, size / res)
         painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
         painter.restore()
 
@@ -161,7 +162,7 @@ class TinderUI(QWidget, UI):
             painter.translate(0, -self.position.y() * 0.1)
             painter.setOpacity(opacity + 130 / 255 * self.position.y() / (self.height() / 2))
         painter.translate(-size / 2, -size / 2)
-        painter.scale(75 / 256, 75 / 256)
+        painter.scale(size / res, size / res)
         painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
         painter.restore()
 
