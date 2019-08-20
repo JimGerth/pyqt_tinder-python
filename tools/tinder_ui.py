@@ -122,14 +122,14 @@ class TinderUI(QWidget, UI):
     def _paint_icons(self, painter):
         size = 75
         margin = 10
-        opacity = 130/255
-
-        painter.setOpacity(opacity * (1 - np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width() / 2, self.height() / 2])))
+        opacity = 130/255 * (1 - np.linalg.norm([self.position.x(), self.position.y()]) / np.linalg.norm([self.width() / 2, self.height() / 2]))
+        painter.setOpacity(opacity)
 
         painter.save()
         painter.translate(self.width() / 2 - size / 2 - margin, 0)
         if self.position.x() > 0:
             painter.translate(-self.position.x() * 0.1, 0)
+            painter.setOpacity(opacity + 130/255 * self.position.x() / (self.width() / 2))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75/256, 75/256)
         painter.drawImage(0, 0, QImage(Defaults.check_icon_path))
@@ -139,6 +139,7 @@ class TinderUI(QWidget, UI):
         painter.translate(-self.width() / 2 + size / 2 + margin, 0)
         if self.position.x() < 0:
             painter.translate(-self.position.x() * 0.1, 0)
+            painter.setOpacity(opacity + 130 / 255 * -self.position.x() / (self.width() / 2))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage(Defaults.cross_icon_path))
@@ -148,6 +149,7 @@ class TinderUI(QWidget, UI):
         painter.translate(0, -self.height() / 2 + size / 2 + margin)
         if self.position.y() < 0:
             painter.translate(0, -self.position.y() * 0.1)
+            painter.setOpacity(opacity + 130 / 255 * -self.position.y() / (self.height() / 2))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
@@ -157,6 +159,7 @@ class TinderUI(QWidget, UI):
         painter.translate(0, self.height() / 2 - size / 2 - margin)
         if self.position.y() > 0:
             painter.translate(0, -self.position.y() * 0.1)
+            painter.setOpacity(opacity + 130 / 255 * self.position.y() / (self.height() / 2))
         painter.translate(-size / 2, -size / 2)
         painter.scale(75 / 256, 75 / 256)
         painter.drawImage(0, 0, QImage(Defaults.clock_icon_path))
@@ -175,8 +178,8 @@ class TinderUI(QWidget, UI):
         painter.setOpacity(self.opacity)
 
         # drawing a shadow
-        # painter.setBrush(QColor(0, 0, 0, 15))
-        # painter.drawRect(3, 3, iw, ih)
+        painter.setBrush(QColor(0, 0, 0, 10))
+        painter.drawRect(2, 2, iw, ih)
 
         # drawing the image (or a rectangle if there is no image)
         if not self._image:
