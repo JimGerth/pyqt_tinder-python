@@ -20,7 +20,7 @@ class TinderUI(QWidget, UI):
         super().__init__(parent)
         self._position = QPointF(0, 0)
         self._opacity = 1.0
-        self._scale = 3.5
+        self._scale = 4
         self.setMinimumSize(600, 600)
 
         self._image = None
